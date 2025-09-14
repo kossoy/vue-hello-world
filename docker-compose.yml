@@ -1,11 +1,8 @@
-version: '3.8'
-
 services:
   vue-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: vue-hello-world:latest
+    platform: linux/arm64
+    pull_policy: never
     container_name: vue-hello-world-app
     ports:
       - "8080:80"
