@@ -1,0 +1,36 @@
+services:
+  dummy:
+    environment:
+      NVIDIA_VISIBLE_DEVICES: void
+      TZ: Asia/Jerusalem
+      NODE_ENV: production
+    group_add:
+      - 568
+    hostname: dummy-vue
+    image: docker.io/kossoy/vue-hello-world:latest
+    platform: linux/amd64
+    privileged: False
+    pull_policy: missing
+    restart: always
+    stdin_open: False
+    tty: False
+    ports:
+      - "15000:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vue-app.rule=Host(`localhost`)"
+      - "traefik.http.services.vue-app.loadbalancer.server.port=80"
+x-notes: >+
+  # OK App
+  ## Development
+  ### Container: [dummy]
+  - Is running as unknown user
+  - Is running as unknown group
+  - Is running without [no-new-privileges] security option
+
+x-portals:
+  - host: 0.0.0.0
+    name: Web UI
+    path: /
+    port: 15000
+    scheme: http

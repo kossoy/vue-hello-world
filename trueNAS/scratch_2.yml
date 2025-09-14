@@ -1,0 +1,29 @@
+services:
+  dummy-2:
+    container_name: dummy-2
+    environment:
+      NVIDIA_VISIBLE_DEVICES: void
+      TZ: Asia/Jerusalem
+      NODE_ENV: production
+    group_add:
+      - 568
+    hostname: dummy-2
+    image: docker.io/kossoy/vue-hello-world:latest
+    ports:
+      - '8080:80'
+    restart: unless-stopped
+
+x-notes: >+
+  # OK App
+  ## Development
+  ### Container: [dummy-2]
+  - Is running as unknown user
+  - Is running as unknown group
+  - Is running without [no-new-privileges] security option
+
+x-portals:
+  - host: 0.0.0.0
+    name: Dummy Vue Web UI
+    path: /
+    port: 8080
+    scheme: http

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  vue-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vue-hello-world:latest
+    container_name: vue-hello-world-app
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vue-app.rule=Host(`localhost`)"
+      - "traefik.http.services.vue-app.loadbalancer.server.port=80"
+
+networks:
+  default:
+    name: vue-hello-world-network
